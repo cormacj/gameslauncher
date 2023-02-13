@@ -1,0 +1,56 @@
+object GamesLauncher: TGamesLauncher
+  Left = 559
+  Height = 700
+  Top = 208
+  Width = 1188
+  Caption = 'Games Launcher'
+  ClientHeight = 675
+  ClientWidth = 1188
+  Menu = MainMenu1
+  OnCreate = FormCreate
+  LCLVersion = '2.2.4.0'
+  object GamesListBox: TListBox
+    Left = 27
+    Height = 470
+    Top = 26
+    Width = 677
+    ItemHeight = 0
+    OnClick = GamesListBoxClick
+    Sorted = True
+    TabOrder = 0
+    TopIndex = -1
+  end
+  object StatusBar1: TStatusBar
+    Left = 0
+    Height = 21
+    Top = 654
+    Width = 1188
+    Panels = <>
+  end
+  object MainMenu1: TMainMenu
+    Left = 760
+    Top = 448
+    object FileStuff: TMenuItem
+      Caption = 'File'
+      object MenuItem2: TMenuItem
+        Caption = 'Exit'
+        OnClick = MenuItem2Click
+      end
+    end
+    object Edit: TMenuItem
+      Caption = 'Edit'
+      object MenuItem1: TMenuItem
+        Caption = 'Preferences'
+        OnClick = MenuItem1Click
+      end
+    end
+  end
+  object IniPropStorage: TIniPropStorage
+    StoredValues = <>
+    IniFileName = '~/.config/gameslauncher.ini'
+    IniSection = 'Defaults'
+    OnRestoreProperties = IniPropStorageRestoreProperties
+    Left = 760
+    Top = 400
+  end
+end
