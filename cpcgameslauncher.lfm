@@ -1,7 +1,7 @@
 object GamesLauncher: TGamesLauncher
-  Left = 559
+  Left = 626
   Height = 700
-  Top = 208
+  Top = 128
   Width = 1188
   Caption = 'Games Launcher'
   ClientHeight = 675
@@ -10,10 +10,10 @@ object GamesLauncher: TGamesLauncher
   OnCreate = FormCreate
   LCLVersion = '2.2.4.0'
   object GamesListBox: TListBox
-    Left = 27
+    Left = 280
     Height = 470
-    Top = 26
-    Width = 677
+    Top = 25
+    Width = 832
     ItemHeight = 0
     OnClick = GamesListBoxClick
     Sorted = True
@@ -27,11 +27,33 @@ object GamesLauncher: TGamesLauncher
     Width = 1188
     Panels = <>
   end
+  object GamesTree: TTreeView
+    Left = 47
+    Height = 430
+    Top = 25
+    Width = 206
+    TabOrder = 2
+    Items.Data = {
+      F9FFFFFF020004000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF010000000000
+      00000103000000416C6CFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000000000
+      0000000800000028486F6C64657229FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF00
+      00000000000000000A0000004661766F757269746573FFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFF0000000000000000000500000047656E7265FFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFF00000000000000000006000000526563656E74
+    }
+  end
   object MainMenu1: TMainMenu
-    Left = 760
-    Top = 448
+    Left = 384
+    Top = 584
     object FileStuff: TMenuItem
       Caption = 'File'
+      object MenuItem3: TMenuItem
+        Caption = 'Import Disk Image...'
+      end
+      object MenuItem4: TMenuItem
+        Caption = 'Import Folder...'
+        OnClick = MenuItem4Click
+      end
       object MenuItem2: TMenuItem
         Caption = 'Exit'
         OnClick = MenuItem2Click
@@ -50,7 +72,15 @@ object GamesLauncher: TGamesLauncher
     IniFileName = '~/.config/gameslauncher.ini'
     IniSection = 'Defaults'
     OnRestoreProperties = IniPropStorageRestoreProperties
-    Left = 760
-    Top = 400
+    Left = 464
+    Top = 584
+  end
+  object OpenDialog1: TOpenDialog
+    Left = 536
+    Top = 584
+  end
+  object SelectDirectoryDialog1: TSelectDirectoryDialog
+    Left = 608
+    Top = 584
   end
 end

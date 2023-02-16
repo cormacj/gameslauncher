@@ -10,7 +10,7 @@ uses
   athreads,
   {$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, cpcgameslauncher
+  Forms, cpcgameslauncher, prefsform, preferences
   { you can add units after this };
 
 {$R *.res}
@@ -20,6 +20,7 @@ begin
   Application.Scaled:=True;
   Application.Initialize;
   Application.CreateForm(TGamesLauncher, GamesLauncher);
+  Application.CreateForm(THandlePrefs, HandlePrefs);
   Application.Run;
 end.
 
