@@ -10,10 +10,10 @@ object GamesLauncher: TGamesLauncher
   OnCreate = FormCreate
   LCLVersion = '2.2.4.0'
   object GamesListBox: TListBox
-    Left = 280
+    Left = 528
     Height = 470
     Top = 25
-    Width = 832
+    Width = 624
     ItemHeight = 0
     OnClick = GamesListBoxClick
     Sorted = True
@@ -28,18 +28,23 @@ object GamesLauncher: TGamesLauncher
     Panels = <>
   end
   object GamesTree: TTreeView
-    Left = 47
-    Height = 430
+    Left = 8
+    Height = 623
     Top = 25
-    Width = 206
+    Width = 406
+    AutoExpand = True
+    ExpandSignType = tvestArrowFill
+    ReadOnly = True
+    ScrollBars = ssAutoBoth
+    SortType = stText
     TabOrder = 2
+    Options = [tvoAutoExpand, tvoAutoItemHeight, tvoHideSelection, tvoKeepCollapsedNodes, tvoReadOnly, tvoShowButtons, tvoShowLines, tvoShowRoot, tvoToolTips, tvoThemedDraw]
     Items.Data = {
-      F9FFFFFF020004000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF010000000000
-      00000103000000416C6CFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000000000
-      0000000800000028486F6C64657229FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF00
-      00000000000000000A0000004661766F757269746573FFFFFFFFFFFFFFFFFFFF
-      FFFFFFFFFFFF0000000000000000000500000047656E7265FFFFFFFFFFFFFFFF
-      FFFFFFFFFFFFFFFF00000000000000000006000000526563656E74
+      F9FFFFFF020004000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000000000
+      00000003000000416C6CFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000000000
+      0000000A0000004661766F757269746573FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FF0000000000000000000500000047656E7265FFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFF00000000000000000006000000526563656E74
     }
   end
   object MainMenu1: TMainMenu

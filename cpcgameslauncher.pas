@@ -92,6 +92,7 @@ procedure TGamesLauncher.MenuItem4Click(Sender: TObject);
   GamesDirectory: string;
   loop :integer;
   node: TTreeNode;
+  splits :array of string;
 
 begin
   GameFiles := TStringList.Create;
@@ -107,10 +108,12 @@ begin
     for loop:=0 to GameFiles.Count-1 do
     begin
         StatusBar1.SimpleText:=GameFiles.strings[loop];
-        GamesTree.Items.Add(node,GameFiles.strings[loop]);
+        GamesTree.Items.AddChild(node,ExtractFileName(GameFiles.strings[loop]));
+        //GamesTree.AlphaSort;
     end
     finally
-    GameFiles.Free;
+      GamesTree.AlphaSort;
+      GameFiles.Free;
   end;
 
 end;
