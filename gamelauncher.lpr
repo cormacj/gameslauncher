@@ -10,7 +10,7 @@ uses
   athreads,
   {$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, cpcgameslauncher, prefsform, preferences
+  Forms, cpcgameslauncher, preferences
   { you can add units after this };
 
 {$R *.res}

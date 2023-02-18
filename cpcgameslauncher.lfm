@@ -1,30 +1,21 @@
 object GamesLauncher: TGamesLauncher
-  Left = 626
+  Left = 745
   Height = 700
-  Top = 128
-  Width = 1188
+  Top = 162
+  Width = 1167
   Caption = 'Games Launcher'
   ClientHeight = 675
-  ClientWidth = 1188
+  ClientWidth = 1167
   Menu = MainMenu1
+  OnConstrainedResize = FormConstrainedResize
   OnCreate = FormCreate
+  OnWindowStateChange = FormWindowStateChange
   LCLVersion = '2.2.4.0'
-  object GamesListBox: TListBox
-    Left = 528
-    Height = 470
-    Top = 25
-    Width = 624
-    ItemHeight = 0
-    OnClick = GamesListBoxClick
-    Sorted = True
-    TabOrder = 0
-    TopIndex = -1
-  end
   object StatusBar1: TStatusBar
     Left = 0
     Height = 21
     Top = 654
-    Width = 1188
+    Width = 1167
     Panels = <>
   end
   object GamesTree: TTreeView
@@ -34,11 +25,12 @@ object GamesLauncher: TGamesLauncher
     Width = 406
     AutoExpand = True
     ExpandSignType = tvestArrowFill
+    MultiSelect = True
     ReadOnly = True
     ScrollBars = ssAutoBoth
     SortType = stText
-    TabOrder = 2
-    Options = [tvoAutoExpand, tvoAutoItemHeight, tvoHideSelection, tvoKeepCollapsedNodes, tvoReadOnly, tvoShowButtons, tvoShowLines, tvoShowRoot, tvoToolTips, tvoThemedDraw]
+    TabOrder = 1
+    Options = [tvoAllowMultiselect, tvoAutoExpand, tvoAutoItemHeight, tvoHideSelection, tvoKeepCollapsedNodes, tvoReadOnly, tvoShowButtons, tvoShowLines, tvoShowRoot, tvoToolTips, tvoThemedDraw]
     Items.Data = {
       F9FFFFFF020004000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000000000
       00000003000000416C6CFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000000000
@@ -47,16 +39,66 @@ object GamesLauncher: TGamesLauncher
       FFFFFF00000000000000000006000000526563656E74
     }
   end
+  object GamesGrid: TStringGrid
+    Left = 432
+    Height = 434
+    Top = 25
+    Width = 752
+    ColCount = 6
+    ColumnClickSorts = True
+    Columns = <    
+      item
+        MaxSize = 200
+        ReadOnly = True
+        Title.Caption = 'Filename'
+        Width = 119
+      end    
+      item
+        Title.Caption = 'Genre'
+        Width = 119
+      end    
+      item
+        Title.Caption = 'Publisher'
+        Width = 119
+      end    
+      item
+        Title.Caption = 'Year'
+        Width = 119
+      end    
+      item
+        Title.Caption = 'Language'
+        Width = 119
+      end    
+      item
+        Title.Caption = 'Comments'
+        Width = 123
+      end>
+    DefaultColWidth = 128
+    FixedCols = 0
+    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goDblClickAutoSize, goSmoothScroll]
+    RowCount = 1
+    TabOrder = 2
+    ColWidths = (
+      119
+      119
+      119
+      119
+      119
+      123
+    )
+  end
   object MainMenu1: TMainMenu
-    Left = 384
+    Left = 1056
     Top = 584
     object FileStuff: TMenuItem
-      Caption = 'File'
+      Caption = '&File'
+      ShortCutKey2 = 32838
       object MenuItem3: TMenuItem
         Caption = 'Import Disk Image...'
       end
       object MenuItem4: TMenuItem
         Caption = 'Import Folder...'
+        ShortCut = 32841
         OnClick = MenuItem4Click
       end
       object MenuItem2: TMenuItem
@@ -65,7 +107,8 @@ object GamesLauncher: TGamesLauncher
       end
     end
     object Edit: TMenuItem
-      Caption = 'Edit'
+      Caption = '&Edit'
+      ShortCutKey2 = 32837
       object MenuItem1: TMenuItem
         Caption = 'Preferences'
         OnClick = MenuItem1Click
