@@ -69,20 +69,25 @@ function Capit(const s:string):string;
 var
   res,tmp,i,u,l :string;
   bits :array of string;
-  n :integer;
+  size,n :integer;
+
 begin
   res:='';
-  bits:=s.Split(' ');
-  for n:=0 to sizeof(bits) do
+  if s<>'' then
   begin
-       tmp:=bits[n];
-       u:=UpperCase(LeftStr(tmp,1));
-       l:=LowerCase(RightStr(tmp,Length(tmp)-1));
-       AppendStr(u,l);
-       AppendStr(res,u);
-       AppendStr(res,' ');
-  end;
-  Capit:=res;
+    bits:=s.Split(' ',TStringSplitOptions.ExcludeEmpty);
+    size:=Length(bits)-1;
+    for n:=0 to size do
+      begin
+           tmp:=bits[n];
+           u:=UpperCase(LeftStr(tmp,1));
+           l:=LowerCase(RightStr(tmp,Length(tmp)-1));
+           AppendStr(u,l);
+           AppendStr(res,u);
+           AppendStr(res,' ');
+      end;
+    end;
+    Capit:=res;
   end;
 
 procedure TGamesLauncher.IniPropStorageRestoreProperties(Sender: TObject);
@@ -158,7 +163,8 @@ procedure TGamesLauncher.MenuItem4Click(Sender: TObject);
   dizline :string;
   dizfile :TextFile;
   dizcontents :string;
-  diztmp :array of string;
+  dizPcontents :Pchar;
+  diztmp :array[0..5] of string;
   grdata :array[0..5] of string;
   n :integer;
 
@@ -166,7 +172,7 @@ begin
   GameFiles := TStringList.Create;
   //GamesDirectory := '/mnt/media/games/Amstrad\ CPC\ \[TOSEC\]\ 2017/Amstrad\ CPC\ -\ Games\ -\ \[DSK\]\ \(TOSEC-v2015-05-07_CM\)';
   GamesDirectory := '/home/cormac/Amstrad';
-  GamesDirectory := '/media/cormac/2020-03-30-01-45-30-00/Arcade';
+  GamesDirectory := '/media/cormac/2020-03-30-01-45-30-00';
 
   try
     GameFiles := FindAllFiles(GamesDirectory, '*.dsk;*.zip;*.gz', true);
@@ -196,29 +202,34 @@ begin
             reset(dizfile);
             while not eof(dizfile) do
             begin
+                //Let's break down a .diz file:
+                //I'm assuming that the structure is something like:
+                // random header
+                // SOMETHING: TEXT
+                // etc until end
                   readln(dizfile,dizcontents);
-                  diztmp:=SplitString(dizcontents,':');
-                  for n:=0 to 5 do
-                  begin
-                      diztmp[n]:=Trim(diztmp[n]);
-                  end;
+                  n:=Pos(':',dizcontents);
+//                  writeln(n, dizcontents);
+                  if n>0 then
+                    begin
+                      diztmp[0]:=Trim(Copy(dizcontents,1,n-1));
+                      diztmp[1]:=TrimLeft(Copy(dizcontents,n+1,Length(dizcontents)-n));
+                      //  writeln(n, diztmp[0],diztmp[1]);
+                      case diztmp[0] of
+                           'TITLE': grdata[0]:=UTF8String(Capit(diztmp[1]));
+                           'TYPE': grdata[1]:=diztmp[1];
+                           'COMPANY': grdata[2]:=UTF8String(Capit(diztmp[1]));
+                           'YEAR': grdata[3]:=diztmp[1];
+                           'LANGUAGE': grdata[4]:=diztmp[1];
+                           'COMMENTS': grdata[5]:=diztmp[1];
 
-                  case diztmp[0] of
-                       'TITLE': grdata[0]:=Capit(diztmp[1]);
-                       'TYPE': grdata[1]:=diztmp[1];
-                       'COMPANY': grdata[2]:=Capit(diztmp[1]);
-                       'YEAR': grdata[3]:=diztmp[1];
-                       'LANGUAGE': grdata[4]:=diztmp[1];
-                       'COMMENTS': grdata[5]:=diztmp[1];
-                  end;
-            end;
+                      end;
+                    end;
+              end;
+              closefile(dizfile);
           end;
-
-        //if grdata[0]='' then
-        //  begin
-        //   grdata[0]:=ExtractFileName(GameFiles.strings[loop]);
-        //  end;
-        //GamesGrid.InsertRowWithValues(1,ExtractFileName(GameFiles.strings[loop]));
+        if grdata[0]='' then
+          grdata[0]:=GameFiles.strings[loop];
         GamesGrid.InsertRowWithValues(1,grdata);
 
         //ShowMessage(Format('Import started - totalgames=%d', [totalgames]));
@@ -237,8 +248,6 @@ begin
       GamesGrid.SortColRow(true,0);
       GamesTree.AlphaSort;
       GameFiles.Free;
+    end;
   end;
-
-end;
-
 end.

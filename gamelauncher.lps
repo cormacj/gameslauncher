@@ -2,7 +2,47 @@
 <CONFIG>
   <ProjectSession>
     <Version Value="12"/>
-    <BuildModes Active="Default"/>
+    <BuildModes Active="Debug">
+      <Item Name="Debug">
+        <CompilerOptions>
+          <Version Value="11"/>
+          <Target>
+            <Filename Value="gamelauncher"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir)"/>
+            <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <Parsing>
+            <SyntaxOptions>
+              <IncludeAssertionCode Value="True"/>
+            </SyntaxOptions>
+          </Parsing>
+          <CodeGeneration>
+            <Checks>
+              <IOChecks Value="True"/>
+              <RangeChecks Value="True"/>
+              <OverflowChecks Value="True"/>
+              <StackChecks Value="True"/>
+            </Checks>
+            <VerifyObjMethodCallValidity Value="True"/>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <DebugInfoType Value="dsDwarf3"/>
+              <UseHeaptrc Value="True"/>
+              <TrashVariables Value="True"/>
+              <UseExternalDbgSyms Value="True"/>
+            </Debugging>
+            <Options>
+              <Win32>
+                <GraphicApplication Value="True"/>
+              </Win32>
+            </Options>
+          </Linking>
+        </CompilerOptions>
+      </Item>
+    </BuildModes>
     <Units>
       <Unit>
         <Filename Value="gamelauncher.lpr"/>
@@ -18,8 +58,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="190"/>
-        <CursorPos X="27" Y="244"/>
+        <TopLine Value="198"/>
+        <CursorPos X="69" Y="212"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -39,15 +79,8 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="74" Y="5"/>
-        <UsageCount Value="65"/>
+        <UsageCount Value="96"/>
         <DefaultSyntaxHighlighter Value="None"/>
-      </Unit>
-      <Unit>
-        <Filename Value="/usr/local/share/lazarus/lcl/include/treeview.inc"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="2255"/>
-        <CursorPos X="6" Y="2268"/>
-        <UsageCount Value="1"/>
       </Unit>
       <Unit>
         <Filename Value="/usr/local/share/lazarus/lcl/comctrls.pp"/>
@@ -55,143 +88,143 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="2993"/>
         <CursorPos X="3" Y="2996"/>
-        <UsageCount Value="23"/>
+        <UsageCount Value="20"/>
       </Unit>
       <Unit>
         <Filename Value="todos.pas"/>
         <EditorIndex Value="1"/>
         <CursorPos Y="7"/>
-        <UsageCount Value="31"/>
+        <UsageCount Value="47"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="cpcgameslauncher.lfm"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="25"/>
-        <UsageCount Value="6"/>
+        <UsageCount Value="3"/>
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">
       <Position>
         <Filename Value="cpcgameslauncher.pas"/>
-        <Caret Line="173" Column="76" TopLine="144"/>
+        <Caret Line="195" Column="44" TopLine="163"/>
       </Position>
       <Position>
         <Filename Value="cpcgameslauncher.pas"/>
-        <Caret Line="174" Column="16" TopLine="146"/>
+        <Caret Line="201" Column="32" TopLine="163"/>
       </Position>
       <Position>
         <Filename Value="cpcgameslauncher.pas"/>
-        <Caret Line="131" Column="38" TopLine="77"/>
+        <Caret Line="205" TopLine="163"/>
       </Position>
       <Position>
         <Filename Value="cpcgameslauncher.pas"/>
-        <Caret Line="205" Column="34" TopLine="162"/>
+        <Caret Line="87" Column="6" TopLine="50"/>
       </Position>
       <Position>
         <Filename Value="cpcgameslauncher.pas"/>
-        <Caret Line="79" Column="69" TopLine="37"/>
+        <Caret Line="80" TopLine="50"/>
       </Position>
       <Position>
         <Filename Value="cpcgameslauncher.pas"/>
-        <Caret Line="210" Column="32" TopLine="167"/>
+        <Caret Line="75" Column="17" TopLine="48"/>
       </Position>
       <Position>
         <Filename Value="cpcgameslauncher.pas"/>
-        <Caret Line="209" Column="11" TopLine="167"/>
+        <Caret Line="242" TopLine="195"/>
       </Position>
       <Position>
         <Filename Value="cpcgameslauncher.pas"/>
-        <Caret Line="79" Column="5" TopLine="31"/>
+        <Caret Line="78" Column="31" TopLine="52"/>
       </Position>
       <Position>
         <Filename Value="cpcgameslauncher.pas"/>
-        <Caret Line="185" Column="24" TopLine="158"/>
+        <Caret Line="208" TopLine="194"/>
       </Position>
       <Position>
         <Filename Value="cpcgameslauncher.pas"/>
-        <Caret Line="184" Column="67" TopLine="157"/>
+        <Caret Line="220" Column="19" TopLine="193"/>
       </Position>
       <Position>
         <Filename Value="cpcgameslauncher.pas"/>
-        <Caret Line="232" Column="57" TopLine="194"/>
+        <Caret Line="217" Column="45" TopLine="190"/>
       </Position>
       <Position>
         <Filename Value="cpcgameslauncher.pas"/>
-        <Caret Line="87" Column="17" TopLine="49"/>
+        <Caret Line="164" Column="22" TopLine="155"/>
       </Position>
       <Position>
         <Filename Value="cpcgameslauncher.pas"/>
-        <Caret Line="206" TopLine="180"/>
+        <Caret Line="208" Column="45" TopLine="181"/>
       </Position>
       <Position>
         <Filename Value="cpcgameslauncher.pas"/>
-        <Caret Line="75" Column="9" TopLine="27"/>
+        <Caret Line="165" Column="7" TopLine="136"/>
       </Position>
       <Position>
         <Filename Value="cpcgameslauncher.pas"/>
-        <Caret Line="206" Column="49" TopLine="180"/>
+        <Caret Line="218" Column="36" TopLine="191"/>
       </Position>
       <Position>
         <Filename Value="cpcgameslauncher.pas"/>
-        <Caret Line="68" TopLine="43"/>
+        <Caret Line="232" TopLine="210"/>
       </Position>
       <Position>
         <Filename Value="cpcgameslauncher.pas"/>
-        <Caret Line="190" Column="56" TopLine="164"/>
+        <Caret Line="234" Column="44" TopLine="205"/>
       </Position>
       <Position>
         <Filename Value="cpcgameslauncher.pas"/>
-        <Caret Line="219" Column="21" TopLine="184"/>
+        <Caret Line="231" Column="61" TopLine="205"/>
       </Position>
       <Position>
         <Filename Value="cpcgameslauncher.pas"/>
-        <Caret Line="71" Column="25" TopLine="45"/>
+        <Caret Line="241" TopLine="219"/>
       </Position>
       <Position>
         <Filename Value="cpcgameslauncher.pas"/>
-        <Caret Line="74" Column="23" TopLine="47"/>
+        <Caret Line="244" TopLine="192"/>
       </Position>
       <Position>
         <Filename Value="cpcgameslauncher.pas"/>
-        <Caret Line="77" Column="61" TopLine="48"/>
+        <Caret Line="227" Column="23" TopLine="209"/>
       </Position>
       <Position>
         <Filename Value="cpcgameslauncher.pas"/>
-        <Caret Line="76" Column="21" TopLine="49"/>
+        <Caret Line="245" Column="77" TopLine="209"/>
       </Position>
       <Position>
         <Filename Value="cpcgameslauncher.pas"/>
-        <Caret Line="81" Column="14" TopLine="50"/>
+        <Caret Line="231" Column="2" TopLine="209"/>
       </Position>
       <Position>
         <Filename Value="cpcgameslauncher.pas"/>
-        <Caret Line="79" Column="85" TopLine="52"/>
+        <Caret Line="233" Column="83" TopLine="222"/>
       </Position>
       <Position>
         <Filename Value="cpcgameslauncher.pas"/>
-        <Caret Line="80" Column="74" TopLine="52"/>
+        <Caret Line="232" Column="38" TopLine="188"/>
       </Position>
       <Position>
         <Filename Value="cpcgameslauncher.pas"/>
-        <Caret Line="79" Column="90" TopLine="52"/>
+        <Caret Line="70" Column="195" TopLine="52"/>
       </Position>
       <Position>
         <Filename Value="cpcgameslauncher.pas"/>
-        <Caret Line="81" Column="28" TopLine="52"/>
+        <Caret Line="77" Column="23" TopLine="50"/>
       </Position>
       <Position>
         <Filename Value="cpcgameslauncher.pas"/>
-        <Caret Line="82" Column="28" TopLine="54"/>
+        <Caret Line="79" Column="17" TopLine="50"/>
       </Position>
       <Position>
         <Filename Value="cpcgameslauncher.pas"/>
-        <Caret Line="80" Column="42" TopLine="53"/>
+        <Caret Line="175" Column="58" TopLine="169"/>
       </Position>
       <Position>
         <Filename Value="cpcgameslauncher.pas"/>
-        <Caret Line="82" Column="8" TopLine="54"/>
+        <Caret Line="229" Column="16" TopLine="199"/>
       </Position>
     </JumpHistory>
     <RunParams>
