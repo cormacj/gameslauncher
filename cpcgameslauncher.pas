@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Menus, StdCtrls,
   IniPropStorage, ComCtrls, ExtCtrls, FileUtil, preferences, Grids, ComboEx,
-  FileCtrl, DBCtrls, ValEdit, StrUtils;
+  FileCtrl, DBCtrls, ValEdit, StrUtils, LazUTF8;
 
 
 type
@@ -39,6 +39,20 @@ type
   private
 
   public
+    type
+        //here we define the details for the games we import
+        GameDetails = record
+          filename,
+          title,
+          genre,
+          company,
+          year,
+          language,
+          comments :string;
+        end;
+    var
+       totalgames :integer;
+       games: array[0..9999] of GameDetails; //TOSEC is around 6500+ files, may have to increase if I add spectrum/c64/dosbox TODO maybe?
 
   end;
 
@@ -51,6 +65,25 @@ implementation
 
 { TGamesLauncher }
 
+function Capit(const s:string):string;
+var
+  res,tmp,i,u,l :string;
+  bits :array of string;
+  n :integer;
+begin
+  res:='';
+  bits:=s.Split(' ');
+  for n:=0 to sizeof(bits) do
+  begin
+       tmp:=bits[n];
+       u:=UpperCase(LeftStr(tmp,1));
+       l:=LowerCase(RightStr(tmp,Length(tmp)-1));
+       AppendStr(u,l);
+       AppendStr(res,u);
+       AppendStr(res,' ');
+  end;
+  Capit:=res;
+  end;
 
 procedure TGamesLauncher.IniPropStorageRestoreProperties(Sender: TObject);
 begin
@@ -61,8 +94,8 @@ procedure TGamesLauncher.FormCreate(Sender: TObject);
 
 
 begin
-
-
+  totalgames:=0;
+  //ShowMessage(Format('Launcher started - totalgames=%d', [totalgames]));
 end;
 
 procedure TGamesLauncher.FormConstrainedResize(Sender: TObject; var MinWidth,
@@ -145,10 +178,18 @@ begin
     begin
         StatusBar1.SimpleText:=GameFiles.strings[loop];
         GamesTree.Items.AddChild(node,ExtractFileName(GameFiles.strings[loop]));
+        //grdata[0]:=ExtractFileName(GameFiles.strings[loop]);
+        //grdata[1]:='zzzzzz';
         //GamesTree.AlphaSort;
         tmppath := ExtractFilePath(GameFiles.strings[loop])+'file_id.diz';
         StatusBar1.SimpleText:=tmppath;
         //println(dizfile);
+        for n:=0 to 5 do
+        begin
+            grdata[n]:='';
+        end;
+
+
         if FileExists(tmppath) then
           begin
             AssignFile(dizfile, tmppath);
@@ -157,27 +198,40 @@ begin
             begin
                   readln(dizfile,dizcontents);
                   diztmp:=SplitString(dizcontents,':');
-                  //StatusBar1.SimpleText:=diztmp[0];
                   for n:=0 to 5 do
-
-                      grdata[n]:='';
-
+                  begin
+                      diztmp[n]:=Trim(diztmp[n]);
+                  end;
 
                   case diztmp[0] of
-                       'TITLE': grdata[0]:=diztmp[1];
+                       'TITLE': grdata[0]:=Capit(diztmp[1]);
                        'TYPE': grdata[1]:=diztmp[1];
-                       'PUBLISHER': grdata[2]:=diztmp[1];
+                       'COMPANY': grdata[2]:=Capit(diztmp[1]);
                        'YEAR': grdata[3]:=diztmp[1];
                        'LANGUAGE': grdata[4]:=diztmp[1];
                        'COMMENTS': grdata[5]:=diztmp[1];
                   end;
-                  //GamesGrid.InsertRowWithValues(1,ExtractFileName(GameFiles.strings[loop]));
-                  GamesGrid.InsertRowWithValues(1,grdata);
-            end
-          end
+            end;
+          end;
 
+        //if grdata[0]='' then
+        //  begin
+        //   grdata[0]:=ExtractFileName(GameFiles.strings[loop]);
+        //  end;
+        //GamesGrid.InsertRowWithValues(1,ExtractFileName(GameFiles.strings[loop]));
+        GamesGrid.InsertRowWithValues(1,grdata);
 
-
+        //ShowMessage(Format('Import started - totalgames=%d', [totalgames]));
+        games[totalgames].filename:=GameFiles.strings[loop];
+        games[totalgames].title:=Capit(grdata[0]);
+        games[totalgames].genre:=grdata[1];
+        games[totalgames].company:=Capit(grdata[2]);
+        games[totalgames].year:=grdata[3];
+        games[totalgames].language:=grdata[4];
+        games[totalgames].comments:=grdata[5];
+        totalgames:=totalgames+1;
+        StatusBar1.Panels.Items[0].text:=Format('Import started - totalgames=%d', [totalgames]);
+        StatusBar1.Panels.Items[1].text :='asdsadsadada';
     end
     finally
       GamesGrid.SortColRow(true,0);
@@ -188,4 +242,3 @@ begin
 end;
 
 end.
-

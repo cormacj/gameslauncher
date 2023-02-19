@@ -16,7 +16,20 @@ object GamesLauncher: TGamesLauncher
     Height = 21
     Top = 654
     Width = 1167
-    Panels = <>
+    Panels = <    
+      item
+        Text = '1 panel'
+        Width = 350
+      end    
+      item
+        Text = '2 panel'
+        Width = 350
+      end    
+      item
+        Text = '3 panel'
+        Width = 50
+      end>
+    SimplePanel = False
   end
   object GamesTree: TTreeView
     Left = 8
@@ -48,7 +61,6 @@ object GamesLauncher: TGamesLauncher
     ColumnClickSorts = True
     Columns = <    
       item
-        MaxSize = 200
         ReadOnly = True
         Title.Caption = 'Filename'
         Width = 119
