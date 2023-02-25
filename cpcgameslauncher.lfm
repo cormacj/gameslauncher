@@ -1,21 +1,22 @@
 object GamesLauncher: TGamesLauncher
-  Left = 745
-  Height = 700
-  Top = 162
-  Width = 1167
+  Left = 483
+  Height = 787
+  Top = 1234
+  Width = 1359
   Caption = 'Games Launcher'
-  ClientHeight = 675
-  ClientWidth = 1167
+  ClientHeight = 762
+  ClientWidth = 1359
   Menu = MainMenu1
   OnConstrainedResize = FormConstrainedResize
   OnCreate = FormCreate
+  OnPaint = FormPaint
   OnWindowStateChange = FormWindowStateChange
   LCLVersion = '2.2.4.0'
   object StatusBar1: TStatusBar
     Left = 0
     Height = 21
-    Top = 654
-    Width = 1167
+    Top = 741
+    Width = 1359
     Panels = <    
       item
         Text = '1 panel'
@@ -34,36 +35,34 @@ object GamesLauncher: TGamesLauncher
   object GamesTree: TTreeView
     Left = 8
     Height = 623
-    Top = 25
+    Top = 24
     Width = 406
-    AutoExpand = True
     ExpandSignType = tvestArrowFill
-    MultiSelect = True
     ReadOnly = True
     ScrollBars = ssAutoBoth
     SortType = stText
     TabOrder = 1
-    Options = [tvoAllowMultiselect, tvoAutoExpand, tvoAutoItemHeight, tvoHideSelection, tvoKeepCollapsedNodes, tvoReadOnly, tvoShowButtons, tvoShowLines, tvoShowRoot, tvoToolTips, tvoThemedDraw]
+    Options = [tvoAutoItemHeight, tvoHideSelection, tvoKeepCollapsedNodes, tvoReadOnly, tvoShowButtons, tvoShowLines, tvoShowRoot, tvoToolTips, tvoThemedDraw]
     Items.Data = {
-      F9FFFFFF020004000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000000000
+      F9FFFFFF020005000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000000000
       00000003000000416C6CFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000000000
       0000000A0000004661766F757269746573FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
       FF0000000000000000000500000047656E7265FFFFFFFFFFFFFFFFFFFFFFFFFF
-      FFFFFF00000000000000000006000000526563656E74
+      FFFFFF00000000000000000008000000556E736F72746564FFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFF00000000000000000006000000526563656E74
     }
   end
   object GamesGrid: TStringGrid
     Left = 432
-    Height = 434
+    Height = 367
     Top = 25
-    Width = 752
-    ColCount = 6
+    Width = 904
+    ColCount = 8
     ColumnClickSorts = True
     Columns = <    
       item
-        ReadOnly = True
-        Title.Caption = 'Filename'
-        Width = 119
+        Title.Caption = 'Title'
+        Width = 128
       end    
       item
         Title.Caption = 'Genre'
@@ -82,26 +81,159 @@ object GamesLauncher: TGamesLauncher
         Width = 119
       end    
       item
+        Title.Caption = 'Run Command'
+        Width = 128
+      end    
+      item
         Title.Caption = 'Comments'
         Width = 123
+      end    
+      item
+        ReadOnly = True
+        Title.Caption = 'Filename'
+        Width = 0
+        Visible = False
       end>
     DefaultColWidth = 128
     FixedCols = 0
     Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goDblClickAutoSize, goSmoothScroll]
     RowCount = 1
     TabOrder = 2
+    OnClick = GamesGridClick
     ColWidths = (
+      128
       119
       119
       119
       119
-      119
+      128
       123
+      0
     )
   end
+  object GameDetailsBox: TGroupBox
+    Left = 432
+    Height = 288
+    Top = 400
+    Width = 736
+    ClientHeight = 284
+    ClientWidth = 732
+    TabOrder = 3
+    object FullGameFile: TLabeledEdit
+      Left = 0
+      Height = 27
+      Top = 16
+      Width = 728
+      EditLabel.Height = 17
+      EditLabel.Width = 728
+      EditLabel.Caption = 'Full path to game'
+      EditLabel.ParentColor = False
+      TabOrder = 0
+      Text = 'FullGameFile'
+    end
+    object TitleDetails1: TLabeledEdit
+      Left = 0
+      Height = 27
+      Top = 64
+      Width = 319
+      EditLabel.Height = 17
+      EditLabel.Width = 319
+      EditLabel.Caption = 'Title'
+      EditLabel.ParentColor = False
+      TabOrder = 1
+      Text = 'TitleDetails1'
+    end
+    object GenreDetails1: TLabeledEdit
+      Left = 0
+      Height = 27
+      Top = 112
+      Width = 319
+      EditLabel.Height = 17
+      EditLabel.Width = 319
+      EditLabel.Caption = 'Genre'
+      EditLabel.ParentColor = False
+      TabOrder = 2
+      Text = 'GenreDetails1'
+    end
+    object PublisherDetails1: TLabeledEdit
+      Left = 0
+      Height = 27
+      Top = 160
+      Width = 319
+      EditLabel.Height = 17
+      EditLabel.Width = 319
+      EditLabel.Caption = 'Publisher'
+      EditLabel.ParentColor = False
+      TabOrder = 3
+      Text = 'PublisherDetails1'
+    end
+    object YearDetails1: TLabeledEdit
+      Left = 0
+      Height = 27
+      Top = 208
+      Width = 80
+      EditLabel.Height = 17
+      EditLabel.Width = 80
+      EditLabel.Caption = 'Year'
+      EditLabel.ParentColor = False
+      TabOrder = 4
+      Text = 'YearDetails1'
+    end
+    object LanguageDetails1: TLabeledEdit
+      Left = 104
+      Height = 27
+      Top = 208
+      Width = 216
+      EditLabel.Height = 17
+      EditLabel.Width = 216
+      EditLabel.Caption = 'Language'
+      EditLabel.ParentColor = False
+      TabOrder = 5
+      Text = 'LanguageDetails1'
+    end
+    object RunCommandDetails1: TLabeledEdit
+      Left = 335
+      Height = 27
+      Top = 64
+      Width = 393
+      EditLabel.Height = 17
+      EditLabel.Width = 393
+      EditLabel.Caption = 'Run Command'
+      EditLabel.ParentColor = False
+      TabOrder = 6
+      Text = 'Run Command'
+    end
+    object Label2: TLabel
+      Left = 336
+      Height = 17
+      Top = 96
+      Width = 73
+      Caption = 'Comments'
+      ParentColor = False
+    end
+    object CommentDetails1: TMemo
+      Left = 336
+      Height = 163
+      Top = 112
+      Width = 392
+      Lines.Strings = (
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed molestie massa a metus bibendum varius. Fusce sed turpis vitae lacus viverra volutpat. Sed id est nec elit fringilla egestas. Proin vitae tincidunt felis, et molestie dolor. Etiam finibus sapien at odio imperdiet pharetra. Sed eu rhoncus dui. Duis maximus augue nunc, vitae scelerisque mauris efficitur eget. Vivamus semper pharetra est vel venenatis. Vivamus mollis risus vel dignissim vehicula. Donec a imperdiet odio. Donec a sem nec metus cursus pulvinar in in metus. '
+      )
+      TabOrder = 7
+    end
+  end
+  object ProgressBar1: TProgressBar
+    Left = 440
+    Height = 25
+    Top = 704
+    Width = 686
+    Smooth = True
+    TabOrder = 4
+    Visible = False
+  end
   object MainMenu1: TMainMenu
-    Left = 1056
-    Top = 584
+    Left = 152
+    Top = 664
     object FileStuff: TMenuItem
       Caption = '&File'
       ShortCutKey2 = 32838
@@ -131,16 +263,15 @@ object GamesLauncher: TGamesLauncher
     StoredValues = <>
     IniFileName = '~/.config/gameslauncher.ini'
     IniSection = 'Defaults'
-    OnRestoreProperties = IniPropStorageRestoreProperties
-    Left = 464
-    Top = 584
+    Left = 16
+    Top = 664
   end
   object OpenDialog1: TOpenDialog
-    Left = 536
-    Top = 584
+    Left = 64
+    Top = 664
   end
   object SelectDirectoryDialog1: TSelectDirectoryDialog
-    Left = 608
-    Top = 584
+    Left = 112
+    Top = 664
   end
 end
