@@ -54,6 +54,12 @@
     </RunParams>
     <RequiredPackages>
       <Item>
+        <PackageName Value="laz.virtualtreeview_package"/>
+      </Item>
+      <Item>
+        <PackageName Value="Orpheus"/>
+      </Item>
+      <Item>
         <PackageName Value="LazControls"/>
       </Item>
       <Item>

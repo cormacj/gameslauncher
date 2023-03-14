@@ -7,7 +7,9 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Menus, StdCtrls,
   IniPropStorage, ComCtrls, ExtCtrls, FileUtil, preferences, Grids, ComboEx,
-  FileCtrl, DBCtrls, ValEdit, StrUtils, LazUTF8;
+  FileCtrl, DBCtrls, ValEdit, ShellCtrls, ActnList, PairSplitter, ColorBox,
+  ovcvlb, StrUtils, LazUTF8, ListFilterEdit, ListViewFilterEdit, TreeFilterEdit,
+  laz.VirtualTrees;
 
 
 type
@@ -15,13 +17,19 @@ type
   { TGamesLauncher }
 
   TGamesLauncher = class(TForm)
+    Clone: TButton;
+    ClearUp: TButton;
     CommentDetails1: TMemo;
     FullGameFile: TLabeledEdit;
-    GenreDetails1: TLabeledEdit;
     GameDetailsBox: TGroupBox;
-    IniPropStorage: TIniPropStorage;
+    GenreDetails1: TLabeledEdit;
     Label2: TLabel;
     LanguageDetails1: TLabeledEdit;
+    ListBox1: TListBox;
+    GameFilter1: TListFilterEdit;
+    PublisherDetails1: TLabeledEdit;
+    Restore: TButton;
+    IniPropStorage: TIniPropStorage;
     MainMenu1: TMainMenu;
     FileStuff: TMenuItem;
     Edit: TMenuItem;
@@ -31,9 +39,9 @@ type
     MenuItem4: TMenuItem;
     OpenDialog1: TOpenDialog;
     ProgressBar1: TProgressBar;
-    PublisherDetails1: TLabeledEdit;
     RunCommandDetails1: TLabeledEdit;
     SelectDirectoryDialog1: TSelectDirectoryDialog;
+    ShellListView1: TShellListView;
     StatusBar1: TStatusBar;
     GamesTree: TTreeView;
     GamesGrid: TStringGrid;
@@ -45,6 +53,8 @@ type
     procedure FormPaint(Sender: TObject);
     procedure FormWindowStateChange(Sender: TObject);
     procedure GamesGridClick(Sender: TObject);
+    procedure LabeledEdit1Change(Sender: TObject);
+    procedure ListBox1Click(Sender: TObject);
     procedure MenuItem1Click(Sender: TObject);
     procedure MenuItem2Click(Sender: TObject);
     procedure MenuItem4Click(Sender: TObject);
@@ -123,8 +133,6 @@ begin
   FullGameFile.Text:='';
   //memo boxes are annoying but...
   CommentDetails1.Lines.Clear;
-
-
 end;
 
 procedure TGamesLauncher.FormPaint(Sender: TObject);
@@ -162,6 +170,7 @@ begin
 
 
 end;
+
 
 procedure TGamesLauncher.FormWindowStateChange(Sender: TObject);
 var
@@ -205,6 +214,40 @@ begin
   CommentDetails1.Lines.AddText(GamesGrid.Cells[6,row]);
 end;
 
+procedure TGamesLauncher.LabeledEdit1Change(Sender: TObject);
+
+begin
+  GamesGrid.RowCount:=5;
+end;
+
+procedure TGamesLauncher.ListBox1Click(Sender: TObject);
+
+var
+   row :integer;
+   s :string;
+
+begin
+  //row:=GamesGrid.Row;
+  row:=ListBox1.ItemIndex;
+  //row:=ListBox1.ComponentIndex;
+
+  StatusBar1.Panels.Items[0].text:=Format('Clicked Row=%d', [row]);
+
+  s:=GamesGrid.Cells[0,row];
+  StatusBar1.Panels.Items[2].text:=Format('Row=%s', [s]);
+  TitleDetails1.Text:=GamesGrid.Cells[0,row];
+  GenreDetails1.Text:=GamesGrid.Cells[1,row];
+  PublisherDetails1.Text:=GamesGrid.Cells[2,row];
+  YearDetails1.Text:=GamesGrid.Cells[3,row];
+  LanguageDetails1.Text:=GamesGrid.Cells[4,row];
+  RunCommandDetails1.Text:=GamesGrid.Cells[5,row];
+  FullGameFile.Text:=GamesGrid.Cells[7,row];
+  //memo boxes are annoying but...
+  CommentDetails1.Lines.Clear;
+  CommentDetails1.Lines.AddText(GamesGrid.Cells[6,row]);
+
+end;
+
 procedure TGamesLauncher.MenuItem1Click(Sender: TObject);
 
 begin
@@ -231,16 +274,20 @@ var
   diztmp :array[0..1] of string;
   grdata :array[0..7] of string;
   genres :array[0..100] of string;
+  glist :array[0..3] of ansistring;
+
   n :integer;
 
-  //vars for deduping
+  //vars for filters
   found :boolean;
-  srch :string;
+  s1:string;
+  srch :^string;
+  fltr: TListItem;
 
 begin
   GameFiles := TStringList.Create;
   //GamesDirectory := '/mnt/media/games/Amstrad\ CPC\ \[TOSEC\]\ 2017/Amstrad\ CPC\ -\ Games\ -\ \[DSK\]\ \(TOSEC-v2015-05-07_CM\)';
-  GamesDirectory := '/home/cormac/Amstrad';
+  //GamesDirectory := '/home/cormac/Amstrad/robotpd';
   GamesDirectory := '/media/cormac/2020-03-30-01-45-30-00';
 
   try
@@ -263,6 +310,7 @@ begin
     ProgressBar1.Update;
     GamesGrid.BeginUpdate;
     GamesTree.BeginUpdate;
+
 
     for loop:=0 to GameFiles.Count-1 do
       begin
@@ -320,9 +368,13 @@ begin
             //Hidden column is the path+filename
             grdata[7]:=GameFiles.strings[loop];
 
+            totalgames:=totalgames+1;
+
+
             //Push to the screen
             GamesGrid.InsertRowWithValues(1,grdata);
-
+            //totalgames:=GameFilter1.Items.Add(Capit(grdata[0]));
+            //GameFilter1.Items.AddStrings([1,2]);
             //ShowMessage(Format('Import started - totalgames=%d', [totalgames]));
             games[totalgames].filename:=GameFiles.strings[loop];
             games[totalgames].title:=Capit(grdata[0]);
@@ -333,20 +385,21 @@ begin
             games[totalgames].runcmd:=grdata[5];
             games[totalgames].comments:=grdata[6];
 
-            //with GamesListWindow.Items.Add do begin
-            //   Caption:=games[totalgames].title;
-            //   SubItems.Add(games[totalgames].genre);
-            //   SubItems.Add(games[totalgames].company);
-            //   SubItems.Add(games[totalgames].year);
-            //   SubItems.Add(games[totalgames].language);
-            //   SubItems.Add(games[totalgames].runcmd);
-            //   SubItems.Add(games[totalgames].comments);
-            //   SubItems.Add(games[totalgames].filename);
-            // end;
 
+            glist[0]:=games[totalgames].title;
+            glist[1]:=games[totalgames].filename;
+            GameFilter1.Items.AddStrings(glist);
+//gameslistwindow.Items.add(games[totalgames].title);
+//gameslistwindow.Items.Add(games[totalgames].genre);
+//gameslistwindow.items.AddCommaText('1,2,3,4,5,6,7,8');
+//listview2.sub;
+            //
             //StatusBar1.SimpleText:=GameFiles.strings[loop];
             node:=GamesTree.TopItem;
             GamesTree.Items.AddChild(node,ExtractFileName(GameFiles.strings[loop]));
+            //ListBox1.Items.Add(games[totalgames].title);
+            //ListViewFilterEdit1.Items.Add('1232131233');
+            //fltr:='abc';
 
             //found:=False;
             //
@@ -361,11 +414,10 @@ begin
             //  end;
 
 
-            totalgames:=totalgames+1;
 
 
             //StatusBar1.Panels.Items[0].text:=Format('Import started - totalgames=%d', [totalgames]);
-            //StatusBar1.Panels.Items[1].text :='asdsadsadada';
+            //StatusBar1.Panels.Items[1].text :=Format('Add Value=%d',[n]); ;
           end;
           end
     finally
@@ -375,10 +427,14 @@ begin
       //GamesGrid.Show;
       ProgressBar1.Visible:=False;
       GamesGrid.EndUpdate;
-      GamesTree.EndUpdate;
 
       ProgressBar1.Visible:=False;
-
+  GameFilter1.ResetFilter;
+  GameFilter1.InvalidateFilter;
+  GameFilter1.Filter:='';
+  GameFilter1.Clear;
+  GameFilter1.Text:='';
+  GameFilter1.Update;
     end;
   end;
 end.

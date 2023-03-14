@@ -1,11 +1,11 @@
 object GamesLauncher: TGamesLauncher
-  Left = 483
-  Height = 787
-  Top = 1234
-  Width = 1359
+  Left = 480
+  Height = 800
+  Top = 148
+  Width = 1408
   Caption = 'Games Launcher'
-  ClientHeight = 762
-  ClientWidth = 1359
+  ClientHeight = 775
+  ClientWidth = 1408
   Menu = MainMenu1
   OnConstrainedResize = FormConstrainedResize
   OnCreate = FormCreate
@@ -15,8 +15,8 @@ object GamesLauncher: TGamesLauncher
   object StatusBar1: TStatusBar
     Left = 0
     Height = 21
-    Top = 741
-    Width = 1359
+    Top = 754
+    Width = 1408
     Panels = <    
       item
         Text = '1 panel'
@@ -43,20 +43,12 @@ object GamesLauncher: TGamesLauncher
     SortType = stText
     TabOrder = 1
     Options = [tvoAutoItemHeight, tvoHideSelection, tvoKeepCollapsedNodes, tvoReadOnly, tvoShowButtons, tvoShowLines, tvoShowRoot, tvoToolTips, tvoThemedDraw]
-    Items.Data = {
-      F9FFFFFF020005000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000000000
-      00000003000000416C6CFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000000000
-      0000000A0000004661766F757269746573FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-      FF0000000000000000000500000047656E7265FFFFFFFFFFFFFFFFFFFFFFFFFF
-      FFFFFF00000000000000000008000000556E736F72746564FFFFFFFFFFFFFFFF
-      FFFFFFFFFFFFFFFF00000000000000000006000000526563656E74
-    }
   end
   object GamesGrid: TStringGrid
-    Left = 432
-    Height = 367
-    Top = 25
-    Width = 904
+    Left = 1328
+    Height = 135
+    Top = 496
+    Width = 40
     ColCount = 8
     ColumnClickSorts = True
     Columns = <    
@@ -96,9 +88,10 @@ object GamesLauncher: TGamesLauncher
       end>
     DefaultColWidth = 128
     FixedCols = 0
-    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goDblClickAutoSize, goSmoothScroll]
+    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goDrawFocusSelected, goColSizing, goRowSelect, goDblClickAutoSize, goSmoothScroll, goSelectionActive]
     RowCount = 1
     TabOrder = 2
+    Visible = False
     OnClick = GamesGridClick
     ColWidths = (
       128
@@ -111,6 +104,69 @@ object GamesLauncher: TGamesLauncher
       0
     )
   end
+  object ProgressBar1: TProgressBar
+    Left = 440
+    Height = 25
+    Top = 704
+    Width = 686
+    Smooth = True
+    TabOrder = 3
+    Visible = False
+  end
+  object Clone: TButton
+    Left = 1212
+    Height = 25
+    Top = 509
+    Width = 75
+    Caption = 'Clone'
+    TabOrder = 4
+  end
+  object ClearUp: TButton
+    Left = 1212
+    Height = 25
+    Top = 560
+    Width = 75
+    Caption = 'ClearUp'
+    TabOrder = 5
+  end
+  object Restore: TButton
+    Left = 1212
+    Height = 25
+    Top = 608
+    Width = 75
+    Caption = 'Restore'
+    TabOrder = 6
+  end
+  object ListBox1: TListBox
+    Left = 432
+    Height = 360
+    Top = 24
+    Width = 728
+    Columns = 2
+    DoubleBuffered = True
+    Items.Strings = (
+      '1,2'
+      '1,3'
+      '1,4'
+      '1,5'
+    )
+    ItemHeight = 23
+    OnClick = ListBox1Click
+    ParentDoubleBuffered = False
+    ParentShowHint = False
+    TabOrder = 7
+  end
+  object GameFilter1: TListFilterEdit
+    Left = 1222
+    Height = 27
+    Top = 251
+    Width = 161
+    ButtonWidth = 23
+    NumGlyphs = 1
+    MaxLength = 0
+    TabOrder = 8
+    FilteredListbox = ListBox1
+  end
   object GameDetailsBox: TGroupBox
     Left = 432
     Height = 288
@@ -118,7 +174,7 @@ object GamesLauncher: TGamesLauncher
     Width = 736
     ClientHeight = 284
     ClientWidth = 732
-    TabOrder = 3
+    TabOrder = 9
     object FullGameFile: TLabeledEdit
       Left = 0
       Height = 27
@@ -221,15 +277,6 @@ object GamesLauncher: TGamesLauncher
       )
       TabOrder = 7
     end
-  end
-  object ProgressBar1: TProgressBar
-    Left = 440
-    Height = 25
-    Top = 704
-    Width = 686
-    Smooth = True
-    TabOrder = 4
-    Visible = False
   end
   object MainMenu1: TMainMenu
     Left = 152
